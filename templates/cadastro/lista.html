@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Cadastro{% endblock %}
+
+{% block content %}
+<h2>Professores:</h2>
+<ul class="list-group mb-4">
+    {% for professor in professores %}
+        <li class="list-group-item">
+            <a href="{{ url_for('cadastro.professor', id=professor.idProfessor) }}">
+                {{ professor.idProfessor }} - {{ professor.nome }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+
+<h2>Alunos:</h2>
+<ul class="list-group">
+    {% for aluno in alunos %}
+        <li class="list-group-item">
+            <a href="{{ url_for('cadastro.aluno', id=aluno.idAluno) }}">
+                {{ aluno.idAluno }} - {{ aluno.nome }}
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

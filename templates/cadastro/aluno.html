@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ aluno.nome }}{% endblock %}
+
+{% block content %}
+<h1>Detalhes do Aluno</h1>
+<p><strong>ID:</strong> {{ aluno.idAluno }}</p>
+<p><strong>Nome:</strong> {{ aluno.nome }}</p>
+<p><strong>Data de Nascimento:</strong> {{ aluno.data }}</p>
+
+{% with destino=url_for('cadastro.lista'), texto='Voltar para a lista' %}
+    {% include 'components/voltar.html' %}
+{% endwith %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Turmas{% endblock %}
+
+{% block content %}
+<h2>Escolha uma turma :</h2>
+<ul class="list-group">
+    {% for turma in turmas %}
+        <li class="list-group-item">
+            <a href="{{ url_for('turmas.detalhe', id=turma.idTurma) }}">{{ turma.nome }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

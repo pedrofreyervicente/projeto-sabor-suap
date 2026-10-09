@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Sabor SUAP{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-B/GM4XqrwHnWXNOWMbloTmrYXZg10cakYGmpfsR/bbzQ6JAJI4ihuyADKLnBgrCe" crossorigin="anonymous">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/bootstrap@6.0.0-alpha.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-1a/pXj49ZQ1aHEmrJ+gMw1otqoVsYwlEnlD8mIfY2TV03r20Y0CN7uqx1tQogjPL" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+        }  
+    </style>
+
+</head>
+<body>
+    <main class="flex flex-col bg-slate-200 min-h-screen">
+        <header class="bg-red-700 text-white py-2">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <a  href="{{ url_for('main.home') }}">
+                            <img src="{{ url_for('static', filename='images/logo-mini-white.png') }}" alt="Logo" class="h-12">
+                        </a>
+                    </div>
+                    <div class="col-auto">
+                        <div class="flex items-center text-xs gap-4 uppercase">
+                            <a class="no-underline! text-white!" href="{{ url_for('main.home') }}">Home</a>
+                            <a class="no-underline! text-white!" href="{{ url_for('turmas.lista') }}">Turmas</a>
+                            <a class="no-underline! text-white!" href="{{ url_for('cadastro.lista') }}">Cadastro</a>
+                            <a class="no-underline! text-white!" href="{{ url_for('notas.lista') }}">Notas</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="shadow py-4 flex-1">
+            <main class="container">
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+        <footer class="bg-red-700 text-white py-6 text-center uppercase font-bold text-xs">
+            projeto sabor suap - 2026
+        </footer>   
+    </main>
+</body>
+</html>
