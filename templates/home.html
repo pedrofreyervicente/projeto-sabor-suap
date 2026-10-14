@@ -1,14 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Panorama Geral Academico</h1>
-<div class="row">
-    <div class="col-3">
-        <div class="bg-white rounded p-4 shadonw">
-            <h2 class="text-xl">Turmas</h2>
-            <p class="text-base">Total de turmas cadastradas</p>
+<div class="text-lg font-bold py-4">Panorama Geral Acadêmico</div>
+
+<div class="bg-white rounded p-4 shadow">
+    <div class="flex flex-row items-center justify-between">
+        <div class="flex w-3 bg-blue-600/10 rounded-md items-center justify-center text-xl text-blue-600 aspect-square hover:bg-blue-400 hover:text-white transition-all">
+            <i class="ri-door-open-fill"></i>
+        </div>
+        <div class="text-xs inline-flex rounded-full bg-blue-600/10 py-1 px-3">Tabela Turmas</div>
+    </div>
+    <div class="text-xs text-gray-600 font-bold pt-5">Total de Turmas</div>
+
+    <p class="flex flex-row pt-1 m-0!">
+        <span class="text-2xl font-bold">6 </span>
+        <span class="text-sm text-gray-600 mt-5 ml-1"> turmas ativas</span>
+    </p>
+
+    <div class="text-sm text-gray-600 mt-1">Ano Letivo 2026</div>
+    <div class="bg-blue-600 w-full h-2 rounded-md mt-5"></div>
+</div>
+
+<div class="text-lg font-bold pt-6 mt-0">Ações Rápidas</div>
+<div class="text-sm text-gray-600 mt-0 mb-4">Atalhos para as operações mais recorrentes na rotina escolar</div>
+
+
+<div class="bg-white rounded p-4 shadow">
+    <div class="flex flex-row items-center justify-between">
+        <div class="flex w-3 bg-blue-600/10 rounded-md items-center justify-center text-2xl text-blue-600 aspect-square hover:bg-blue-400 hover:text-white transition-all">
+            <i class="ri-checkbox-line"></i>
+        </div>
+        <div class="text-xs flex flex-col text-black px-5 flex-1">
+            <div class="text-lg text-black font-bold">Lançar Notas do Trimestre</div>
+            <div class="text-xs text-gray-600">Acesso direto ao diário e fechamento de notas</div>
+        </div>
+        <div class="text-xl">
+            <a href="#" class="no-underline!">
+                <i class="ri-arrow-right-s-line text-gray-600"></i>
+            </a>
         </div>
     </div>
 </div>
+
+
 
 {% endblock %}

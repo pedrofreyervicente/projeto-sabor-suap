@@ -1,0 +1,12 @@
+<div class="bg-white rounded p-6 shadow flex flex-row items-center justify-between">
+    <div>
+        <div class="text-gray-600 text-sm">{{ titulo }}</div>
+        <div class="flex flex-row pt-1 items-end">
+            <div class="text-2xl font-bold">{{ valor }}</div>
+            <div class="text-xs text-{{ cor | default('blue') }}-800 pb-1 ml-1">{{ descricao }}</div>
+        </div>
+    </div>
+    <div class="flex w-10 bg-{{ cor | default('blue') }}-600/10 rounded-md items-center justify-center text-xl text-{{ cor | default('blue') }}-600 aspect-square hover:bg-{{ cor | default('blue') }}-400 hover:text-white transition-all">
+        <i class="{{ icone }}"></i>
+    </div>
+</div>

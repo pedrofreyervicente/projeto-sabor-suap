@@ -1,13 +1,78 @@
 {% extends "base.html" %}
+
 {% block title %}Turmas{% endblock %}
 
 {% block content %}
-<h2>Escolha uma turma :</h2>
-<ul class="list-group">
+<div class="flex flex-row items-center justify-between">
+    <div>
+        <div class="flex flex-row items-center text-blue-800 pt-4">
+            <div class="text-xl">
+                <i class="ri-graduation-cap-line"></i>
+            </div>
+            <div class="text-md text-uppercase ml-2">gestão acadêmica · ano letivo 2026</div>
+        </div>
+
+        <div class="text-2xl font-bold">Turmas do Ensino Médio</div>
+        <div class="text-2sm text-gray-600 mb-4">Gestão das turmas cadastradas, ano letivo e vínculos com alunos, professores e disciplinas.</div>
+    </div>
+
+    <div class="bg-blue-800 text-white rounded p-4 mb-4">
+        <a href="#" class="text-white! no-underline!">
+            <i class="ri-add-line"></i>
+            <span class="text-sm text-white font-bold no-underline!">Nova Turma</span>
+        </a>
+    </div>
+</div>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+    {% with titulo="Total de Turmas", valor=totalTurmas, descricao="Turmas", icone="ri-group-fill" %}
+        {% include 'components/destaque-icones.html' %}
+    {% endwith %}
+
+    {% with titulo="Alunos Matriculados", valor=totalAlunos, descricao="Alunos", icone="ri-user-fill", cor="green" %}
+        {% include 'components/destaque-icones.html' %}
+    {% endwith %}
+
+    {% with titulo="Disciplinas Vinculadas", valor=totalDisciplinas, descricao="Disciplinas", icone="ri-book-open-line", cor="yellow" %}
+        {% include 'components/destaque-icones.html' %}
+    {% endwith %}
+
+    {% with titulo="Professores Alocados", valor=totalProfessores, descricao="Professores", icone="ri-user-2-line", cor="red" %}
+        {% include 'components/destaque-icones.html' %}
+    {% endwith %}
+</div>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
     {% for turma in turmas %}
-        <li class="list-group-item">
-            <a href="{{ url_for('turmas.detalhe', id=turma.idTurma) }}">{{ turma.nome }}</a>
-        </li>
+        <div class="bg-white rounded p-8 shadow">
+            <div class="flex flex-row items-center justify-between mb-5">
+                <div>
+                    <div class="text-blue-800 text-xs text-uppercase font-bold">ano letivo: {{ turma.ano }}</div>
+                    <div class="text-lg font-bold">{{ turma.nome }}</div>
+                </div>
+                <div class="text-blue-800 bg-blue-600/10 text-sm font-bold py-1 px-2 rounded uppercase">turma #{{ turma.idTurma }}</div>
+            </div>
+
+            <div class="text-gray-600 text-xs mb-8">
+                <div>
+                    <i class="ri-group-fill"></i>
+                    <span class="ml-2">Alunos Matriculados: <strong>38 alunos</strong></span>
+                </div>
+                <div>
+                    <i class="ri-presentation-fill"></i>
+                    <span class="ml-2">Professores Alocados: <strong>8 professores</strong></span>
+                </div>
+                <div>
+                    <i class="ri-book-open-line"></i>
+                    <span class="ml-2">Disciplinas Vinculadas: <strong>6 disciplinas</strong></span>
+                </div>
+            </div>
+
+            <div class="text-right">
+                <a href="{{ url_for('turmas.detalhe', id=turma.idTurma) }}" class="no-underline! text-blue-600! font-bold text-sm hover:m-2 transition-all">Acessar Turma <i class="ri-arrow-right-line"></i></a>
+            </div>
+
+        </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}
