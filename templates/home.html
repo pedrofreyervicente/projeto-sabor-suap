@@ -3,45 +3,41 @@
 {% block content %}
 <div class="text-lg font-bold py-4">Panorama Geral Acadêmico</div>
 
-<div class="bg-white rounded p-4 shadow">
-    <div class="flex flex-row items-center justify-between">
-        <div class="flex w-3 bg-blue-600/10 rounded-md items-center justify-center text-xl text-blue-600 aspect-square hover:bg-blue-400 hover:text-white transition-all">
-            <i class="ri-door-open-fill"></i>
-        </div>
-        <div class="text-xs inline-flex rounded-full bg-blue-600/10 py-1 px-3">Tabela Turmas</div>
-    </div>
-    <div class="text-xs text-gray-600 font-bold pt-5">Total de Turmas</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+    {% with icone="ri-group-fill", tabela="Tabela alunos", titulo="Total de Alunos", valor=totalAlunos, descricao="cadastrados", subdescricao="Registrados com nome e data", cor="blue", numero="700" %}
+        {% include 'components/destaque-home.html' %}
+    {% endwith %}
 
-    <p class="flex flex-row pt-1 m-0!">
-        <span class="text-2xl font-bold">6 </span>
-        <span class="text-sm text-gray-600 mt-5 ml-1"> turmas ativas</span>
-    </p>
+    {% with icone="ri-door-open-line", tabela="Tabela turmas", titulo="Total de Turmas", valor=totalTurmas, descricao="turmas ativas", subdescricao="Ano Letivo 2026", cor="sky", numero="950" %}
+        {% include 'components/destaque-home.html' %}
+    {% endwith %}
 
-    <div class="text-sm text-gray-600 mt-1">Ano Letivo 2026</div>
-    <div class="bg-blue-600 w-full h-2 rounded-md mt-5"></div>
+    {% with icone="ri-book-open-line", tabela="Tabela disciplinas", titulo="Total de Disciplinas", valor=totalDisciplinas, descricao="disciplinas", subdescricao="Componentes curriculares cadastrados", cor="blue", numero="500" %}
+        {% include 'components/destaque-home.html' %}
+    {% endwith %}
+
+    {% with icone="ri-id-card-line", tabela="Tabela professores", titulo="Total de Professores", valor=totalProfessores, descricao="docentes", subdescricao="Professores cadastrados no sistema", cor="green", numero="900" %}
+        {% include 'components/destaque-home.html' %}
+    {% endwith %}
 </div>
 
 <div class="text-lg font-bold pt-6 mt-0">Ações Rápidas</div>
-<div class="text-sm text-gray-600 mt-0 mb-4">Atalhos para as operações mais recorrentes na rotina escolar</div>
+<div class="text-sm text-gray-600 mt-0 mb-5">Atalhos para as operações mais recorrentes na rotina escolar</div>
 
 
-<div class="bg-white rounded p-4 shadow">
-    <div class="flex flex-row items-center justify-between">
-        <div class="flex w-3 bg-blue-600/10 rounded-md items-center justify-center text-2xl text-blue-600 aspect-square hover:bg-blue-400 hover:text-white transition-all">
-            <i class="ri-checkbox-line"></i>
-        </div>
-        <div class="text-xs flex flex-col text-black px-5 flex-1">
-            <div class="text-lg text-black font-bold">Lançar Notas do Trimestre</div>
-            <div class="text-xs text-gray-600">Acesso direto ao diário e fechamento de notas</div>
-        </div>
-        <div class="text-xl">
-            <a href="#" class="no-underline!">
-                <i class="ri-arrow-right-s-line text-gray-600"></i>
-            </a>
-        </div>
-    </div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% with icone="ri-checkbox-line", titulo="Lançar Notas do Trimestre", descricao="Acesso direto ao diário e fechamento de notas", numero=20, url="http://127.0.0.1:5000/notas" %}
+        {% include 'components/destaque-home-acoes.html' %}
+    {% endwith %}
+
+    {% with icone="ri-user-add-line", titulo="Cadastro", descricao="Inserir nome e data de matrícula", numero=10, cor="green", numero2="900", url="http://127.0.0.1:5000/cadastro" %}
+        {% include 'components/destaque-home-acoes.html' %}
+    {% endwith %}
+
+    {% with icone="ri-graduation-cap-line", titulo="Turmas", descricao="Turmas, alunos e notas registradas", numero=15, cor="black", numero2="600", url="http://127.0.0.1:5000/turmas" %}
+        {% include 'components/destaque-home-acoes.html' %}
+    {% endwith %}
 </div>
-
 
 
 {% endblock %}

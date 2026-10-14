@@ -1,0 +1,16 @@
+<div class="bg-white rounded p-4 shadow">
+    <div class="flex flex-row items-center justify-between">
+        <div class="flex w-3 px-5 bg-blue-600/{{ numero }} rounded-md items-center justify-center text-2xl text-{{ cor | default('blue') }}-{{ numero2 | default('600') }} aspect-square hover:bg-blue-600 hover:text-white transition-all">
+            <i class="{{ icone }}"></i>
+        </div>
+        <div class="text-xs flex flex-col text-black px-5 flex-1">
+            <div class="text-lg text-black font-bold">{{ titulo }}</div>
+            <div class="text-xs text-gray-600">{{ descricao }}</div>
+        </div>
+        <div class="text-xl">
+            <a href="{{ url }}" class="no-underline!">
+                <i class="ri-arrow-right-s-line text-gray-600"></i>
+            </a>
+        </div>
+    </div>
+</div>

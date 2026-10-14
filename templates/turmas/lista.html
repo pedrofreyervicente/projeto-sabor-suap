@@ -9,7 +9,7 @@
             <div class="text-xl">
                 <i class="ri-graduation-cap-line"></i>
             </div>
-            <div class="text-md text-uppercase ml-2">gestão acadêmica · ano letivo 2026</div>
+            <div class="text-md uppercase ml-2">gestão acadêmica · ano letivo 2026</div>
         </div>
 
         <div class="text-2xl font-bold">Turmas do Ensino Médio</div>
@@ -25,19 +25,19 @@
 </div>
 
 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-    {% with titulo="Total de Turmas", valor=totalTurmas, descricao="Turmas", icone="ri-group-fill" %}
+    {% with titulo="Total de Turmas", valor=totalTurmas, descricao="Turmas", icone="ri-group-fill", cor="blue", numero="700" %}
         {% include 'components/destaque-icones.html' %}
     {% endwith %}
 
-    {% with titulo="Alunos Matriculados", valor=totalAlunos, descricao="Alunos", icone="ri-user-fill", cor="green" %}
+    {% with titulo="Alunos Matriculados", valor=totalAlunos, descricao="Alunos", icone="ri-id-card-line", cor="sky", numero="950" %}
         {% include 'components/destaque-icones.html' %}
     {% endwith %}
 
-    {% with titulo="Disciplinas Vinculadas", valor=totalDisciplinas, descricao="Disciplinas", icone="ri-book-open-line", cor="yellow" %}
+    {% with titulo="Disciplinas Vinculadas", valor=totalDisciplinas, descricao="Disciplinas", icone="ri-book-open-line", cor="blue", numero="500" %}
         {% include 'components/destaque-icones.html' %}
     {% endwith %}
 
-    {% with titulo="Professores Alocados", valor=totalProfessores, descricao="Professores", icone="ri-user-2-line", cor="red" %}
+    {% with titulo="Professores Alocados", valor=totalProfessores, descricao="Professores", icone="ri-id-card-line", cor="green", numero="900" %}
         {% include 'components/destaque-icones.html' %}
     {% endwith %}
 </div>

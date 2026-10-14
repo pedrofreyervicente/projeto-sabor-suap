@@ -5,8 +5,7 @@ class ViewTurmas():
         self.turmas = Turmas()
 
     def getTotalTurmas(self):
-        turmas = self.turmas.listar_turmas()
-        return len(turmas)
+        return len(self.turmas.listar_turmas())
 
     def getTotalAlunos(self):
         alunos = Alunos()

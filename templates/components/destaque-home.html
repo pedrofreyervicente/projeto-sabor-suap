@@ -1,0 +1,17 @@
+<div class="bg-white rounded p-6 shadow">
+    <div class="flex flex-row items-center justify-between">
+        <div class="px-5 flex w-3 bg-blue-100 rounded-md items-center justify-center text-xl text-{{ cor | default('black')}}-{{ numero }} aspect-square hover:bg-{{ cor }}-{{ numero }} hover:text-white transition-all">
+            <i class=" {{ icone }}"></i>
+        </div>
+        <div class="text-xs text-{{ cor | default('black') }} inline-flex rounded-full bg-{{ cor }}-{{ numero }}/20 py-1 px-3 font-bold">{{ tabela }}</div>
+    </div>
+    <div class="text-2sm text-gray-600 font-bold pt-5">{{ titulo }}</div>
+
+    <div class="flex flex-row pt-1">
+        <div class="text-3xl font-bold"> {{ valor }} </div>
+        <div class="text-sm text-gray-600 mt-3 ml-1"> {{ descricao }}</div>
+    </div>
+
+    <div class="text-sm text-black mt-2">{{ subdescricao }}</div>
+    <div class="bg-{{ cor }}-{{ numero }} w-full h-2 rounded-md mt-5"></div>
+</div>
