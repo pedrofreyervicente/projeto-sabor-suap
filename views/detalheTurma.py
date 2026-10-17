@@ -25,6 +25,7 @@ class DetalheTurma ():
     def getDisciplinas(self):
         stmt = (
         select(
+            RelacionamentoProfessor.idTurma,
             Disciplinas.idDisciplina,
             Disciplinas.nome.label("disciplina"),
             Professores.idProfessor,

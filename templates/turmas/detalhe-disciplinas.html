@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}{{ disciplina.disciplina }} - {{ turma.nome }}{% endblock %}
+
+{% block content %}
+
+<div class="flex flex-row items-center justify-between pt-2 text-md">
+    <div>
+        <i class="ri-graduation-cap-line"></i>
+        <a href="{{ url_for('turmas.lista') }}"> Turmas</a> /
+        <a href="{{ url_for('turmas.detalhe', id=disciplina.idTurma) }}">{{ turma.nome }}</a> /
+        <b>{{ disciplina.disciplina }}</b>
+    </div>
+    <div class="text-blue-600 bg-blue-600/10 rounded-md mb-5 p-3 hover:bg-blue-600/20 transition-all">
+        <a href="{{ url_for('turmas.detalhe', id=disciplina.idTurma) }}">
+            <i class="ri-arrow-left-line"></i> Voltar para a Turma
+        </a>
+    </div>
+</div>
+
+{% endblock %}

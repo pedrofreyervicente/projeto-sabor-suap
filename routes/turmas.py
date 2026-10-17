@@ -30,3 +30,19 @@ def detalhe(id):
         "turmas/detalhe.html",
         dados=dados_turma
     )
+
+@turmas_bp.route("/<int:idTurma>/<int:idDisciplina>")
+def detalheDisciplina(idTurma, idDisciplina):
+    detalhe = DetalheTurma(idTurma)
+    turma = detalhe.getTurma()
+
+    disciplina = next(
+        (d for d in detalhe.getDisciplinas() if d.idDisciplina == idDisciplina),
+        None
+    )
+
+    return render_template(
+        "turmas/detalhe-disciplinas.html",
+        turma=turma,
+        disciplina=disciplina
+    )
