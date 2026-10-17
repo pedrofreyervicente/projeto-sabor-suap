@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from database import db
 from models import Turmas
-from views import ViewTurmas
+from views import ViewTurmas, DetalheTurma
 
 turmas_bp = Blueprint("turmas", __name__, url_prefix="/turmas")
 
@@ -24,5 +24,9 @@ def lista():
 
 @turmas_bp.route("/<int:id>")
 def detalhe(id):
-    turma = db.get_or_404(Turmas, id)
-    return render_template("turmas/detalhe.html", turma=turma)
+    detalhe = DetalheTurma(id)
+    dados_turma = detalhe.getDadosTurma()
+    return render_template(
+        "turmas/detalhe.html",
+        dados=dados_turma
+    )

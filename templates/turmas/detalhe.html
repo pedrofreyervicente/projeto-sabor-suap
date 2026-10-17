@@ -1,10 +1,12 @@
 {% extends "base.html" %}
-{% block title %}{{ turma.nome }}{% endblock %}
+
+{% block title %}{{ dados.turma.nome }}{% endblock %}
 
 {% block content %}
 
+
 <div class="flex flex-row items-center justify-between pt-2 text-md">
-    <div><i class="ri-graduation-cap-line"></i> Turmas / <b>{{ turma.nome }}</b></div>
+    <div><i class="ri-graduation-cap-line"></i> Turmas / <b>{{ dados.turma.nome }}</b></div>
     <div class="text-blue-600 bg-blue-600/10 rounded-md mb-5 p-3 hover:bg-blue-600/20 transition-all">
         <a href="{{ url_for('turmas.lista') }}">
             <i class="ri-arrow-left-line"></i> Voltar para a Lista de Turmas
@@ -13,41 +15,35 @@
 </div>
 
 
-
-<div class="bg-white rounded-lg shadow p-4 mx-3">
+<div class="bg-white rounded-lg shadow p-4">
     <div class="flex flex-row items-center justify-between mx-3">
-    <div>
-        <div>
-            <div class="flex flex-row">
-                <div class="text-3xl font-bold mr-2">{{ turma.nome }}</div>
-                <div class="text-xs mt-2 bg-blue-600/10 text-blue-600 rounded-md py-1">Ano Letivo: {{ turma.ano }}</div>
-            </div>
+        <div class="flex flex-row items-center gap-2">
+            <div class="text-3xl font-bold">{{ dados.turma.nome }}</div>
+            <div class="text-xs bg-blue-600/10 text-blue-600 rounded-md py-1 px-2">Ano Letivo: {{ dados.turma.ano }}</div>
         </div>
-        <div class="text-sm text-gray-600">Turma regular • Cadastro de Enturmação</div>
-    </div>
     
 
-     <div class="flex flex-row items-center justify-end gap-4 mx-3">
-        {% with bg="black/10", text="black", icone="ri-printer-line", titulo="Imprimir Diário" %}
-            {% include 'components/destaque-links-info.html' %}
-        {% endwith %}
+        <div class="flex flex-row items-center justify-end gap-4 mx-3">
+            {% with bg="black/10", text="black", icone="ri-printer-line", titulo="Imprimir Diário" %}
+                {% include 'components/destaque-links-info.html' %}
+            {% endwith %}
 
-        {% with bg="black/10", text="black", icone="ri-edit-line", titulo="Editar Turma" %}
-            {% include 'components/destaque-links-info.html' %}
-        {% endwith %}
+            {% with bg="black/10", text="black", icone="ri-edit-line", titulo="Editar Turma" %}
+                {% include 'components/destaque-links-info.html' %}
+            {% endwith %}
 
-        {% with bg="blue-600", text="white", icone="ri-user-follow-line", titulo="Matricular Aluno" %}
-            {% include 'components/destaque-links-info.html' %}
-        {% endwith %}
-    </div>
+            {% with bg="blue-600", text="white", icone="ri-user-follow-line", titulo="Matricular Aluno" %}
+                {% include 'components/destaque-links-info.html' %}
+            {% endwith %}
+        </div>
     </div>
 
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 mx-3">
-        {% with icone="ri-group-line", titulo="alunos enturmados", descricao="38 alunos", cor="blue-600/10", text="blue-600" %}
+        {% with icone="ri-group-line", titulo="alunos enturmados", descricao=dados.quantidadeAlunos ~ " alunos", cor="blue-600/10", text="blue-600" %}
             {% include 'components/destaque-turmas-info.html' %}
         {% endwith %}
 
-        {% with icone="ri-book-open-line", titulo="disciplinas da turma", descricao="6 disciplinas", cor="cyan-500/10", text="cyan-500" %}
+        {% with icone="ri-book-open-line", titulo="disciplinas da turma", descricao=dados.quantidadeDisciplinas ~ " disciplinas", cor="cyan-500/10", text="cyan-500" %}
             {% include 'components/destaque-turmas-info.html' %}
         {% endwith %}
 
@@ -56,5 +52,56 @@
         {% endwith %}
     </div>
 </div>
+
+<div class="flex flex-row mt-10 mb-4">
+    <div class="bg-blue-700 px-1 rounded-b rounded-t mr-2"></div>
+    <div class="text-2xl font-bold">Matérias & Professores da Turma</div>
+</div>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
+    {% for disciplina in dados.disciplinas %}
+        {% with icone="ri-quill-pen-line", titulo=disciplina.disciplina, descricao=disciplina.professor %}
+            {% include 'components/destaque-turmas-disciplinas.html' %}
+        {% endwith %}
+    {% endfor %}
+
+</div>
+
+<div class="flex flex-row">
+    <div class="bg-emerald-800 px-1 rounded-b rounded-t mr-2"></div>
+    <div class="text-2xl font-bold">Estudantes Matriculados</div>
+    <div class="text-blue-600 bg-blue-600/10 rounded-xl text-xs px-1 py-2 font-bold ml-3">{{dados.quantidadeAlunos}} ativos</div>
+</div>
+
+<table class="table w-full">
+    <thead>
+        <tr class="uppercase font-semibold text-gray-600 text-xs text-left">
+            <th class="pl-4 py-2">Nº</th>
+            <th>estudante</th>
+            <th>id/matrícula</th>
+            <th>data de nascimento</th>
+            <th>média das notas</th>
+            <th>ações rápidas</th>
+        </tr>
+        {% for aluno in dados.alunos %}
+        <tr class="bg-white border-b border-gray-200">
+            <td class="text-sm text-gray-600 pl-4 py-3">{{ loop.index }}</td>
+            <td class="text-base font-bold">{{ aluno.nome }}</td>
+            <td class="text-sm text-gray-600">{{ aluno.idAluno }}</td>
+            <td class="text-sm text-gray-600">{{ aluno.data }}</td>
+            <td>
+                <div class="text-center text-green-800 inline-flex flex-col text-xs">
+                    <span class="font-bold">8.5</span>
+                    <span>Aprovados</span>
+                </div>
+            </td>
+            <td>
+                <a href="#" class="text-blue-600 bg-blue-600/10 rounded-xl text-blue-600 bg-blue-600/10 rounded-md text-2md py-1 px-3 font-bold text-xs">Lançar / Ver nota</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </thead>
+</table>
+
 
 {% endblock %}
