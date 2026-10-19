@@ -29,7 +29,8 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: JSON.stringify(dados),
             success: function (response) {
-                console.log('Resposta do servidor:', response);
+                alert("Notas salvas com sucesso");
+                window.location.reload();
             },
             error: function (xhr, status, error) {
                 alert('Erro ao salvar as notas.');

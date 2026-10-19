@@ -3,25 +3,12 @@
 {% block title %}Turmas{% endblock %}
 
 {% block content %}
-<div class="flex flex-row items-center justify-between">
-    <div>
-        <div class="flex flex-row items-center text-blue-800 pt-4">
-            <div class="text-xl">
-                <i class="ri-graduation-cap-line"></i>
-            </div>
-            <div class="text-md uppercase ml-2">gestão acadêmica · ano letivo 2026</div>
-        </div>
 
-        <div class="text-2xl font-bold">Turmas do Ensino Médio</div>
-        <div class="text-2sm text-gray-600 mb-4">Gestão das turmas cadastradas, ano letivo e vínculos com alunos, professores e disciplinas.</div>
-    </div>
 
-    <div class="bg-blue-800 text-white rounded p-4 mb-4">
-        <a href="#" class="text-white! no-underline!">
-            <i class="ri-add-line"></i>
-            <span class="text-sm text-white font-bold no-underline!">Nova Turma</span>
-        </a>
-    </div>
+<div class="mb-4">
+    {% with titulo = "Turmas do Ensino Médio",  descricao="Gestão das turmas cadastradas, ano letivo e vínculos com alunos, professores e disciplinas." %}
+        {% include 'components/pagina-titulo.html' %}
+    {% endwith %}
 </div>
 
 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">

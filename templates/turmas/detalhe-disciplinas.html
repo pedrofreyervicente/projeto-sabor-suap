@@ -67,21 +67,21 @@
         {% set notas_lancadas = alunos | selectattr('nota', 'defined') | rejectattr('nota', 'none') | list | length %}
         {% set percentual = ((notas_lancadas / total_alunos) * 100) | round(1) if total_alunos > 0 else 0 %}
 
-<div class="bg-gray-600/10 rounded-xl p-4 w-full">
-    <div class="flex flex-row justify-between">
-        <div class="uppercase">notas lançadas</div>
-        <div class="text-blue-600">
-            <i class="ri-task-line"></i>
+        <div class="bg-gray-600/10 rounded-xl p-4 w-full">
+            <div class="flex flex-row justify-between">
+                <div class="uppercase">notas lançadas</div>
+                <div class="text-blue-600">
+                    <i class="ri-task-line"></i>
+                </div>
+            </div>
+            <div class="flex flex-row justify-between items-end mt-4">
+                <b id="notas-lancadas" class="text-2xl">{{ notas_lancadas }} / {{ total_alunos }}</b>
+                <span id="notas-percentual" class="text-xs text-gray-600">{{ percentual }}%</span>
+            </div>
+            <div class="w-full bg-gray-300 rounded-full h-2 mt-2 overflow-hidden">
+                <div id="notas-barra" class="bg-blue-600 h-2 rounded-full transition-all" style="width: {{ percentual }}%"></div>
+            </div>
         </div>
-    </div>
-    <div class="flex flex-row justify-between items-end mt-4">
-        <b id="notas-lancadas" class="text-2xl">{{ notas_lancadas }} / {{ total_alunos }}</b>
-        <span id="notas-percentual" class="text-xs text-gray-600">{{ percentual }}%</span>
-    </div>
-    <div class="w-full bg-gray-300 rounded-full h-2 mt-2 overflow-hidden">
-        <div id="notas-barra" class="bg-blue-600 h-2 rounded-full transition-all" style="width: {{ percentual }}%"></div>
-    </div>
-</div>
     </div>
 </div>
 
