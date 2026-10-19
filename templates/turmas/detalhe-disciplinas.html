@@ -18,4 +18,123 @@
     </div>
 </div>
 
+<div class="bg-white p-4 rounded-xl">
+    <div class="flex flex-row gap-3">
+        <div class="bg-blue-700 rounded-xl text-white p-3 h-13 items-center text-xl font-bold">
+            <i class="ri-book-ai-line"></i>
+        </div>
+        <div class="flex flex-col">
+            <div class="flex flex-row gap-1">
+                <div class="text-xs text-blue-600 bg-blue-600/10 rounded-xl px-2 py-0.5 uppercase font-bold">id disciplina #{{disciplina.idDisciplina}}</div>
+                <div class="text-xs text-green-600 bg-green-600/10 rounded-xl px-2 py-0.5 font-bold">Ano Letivo {{turma.ano}}</div>
+            </div>
+            <div>
+                <div class="text-2xl font-bold">{{disciplina.disciplina}}</div>   
+            </div>
+            <div class="flex flex-row text-sm">
+                <div class="text-blue-600">
+                    <i class="ri-user-follow-line"></i>
+                </div>
+                <div class="capitalize text-gray-600"> docente responsável: <b>{{disciplina.professor}}</b> (ID #{{disciplina.idProfessor}})</div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-row justify-between mt-5 gap-3">
+        <div class="bg-gray-600/10 rounded-xl p-4 w-full">
+            <div class="flex flex-row justify-between">
+                <div class="uppercase text-xs font-bold text-gray-600">alunos registrados</div>
+                <div class="text-xs font-bold">
+                    <i class="ri-book-line"></i>
+                </div>
+            </div>
+            <div class="mt-2 font-bold text-lg">{{ (alunos | length) }} Estudantes</div>
+            <div class="uppercase text-xs font-bold text-gray-600">matrículas ativadas</div>
+        </div>
+
+        <div class="bg-gray-600/10 rounded-xl p-4 w-full">
+            <div class="flex flex-row justify-between">
+                <div class="uppercase">média lançada</div>
+                <div>
+                    <i class="ri-book-line"></i>
+                </div>
+            </div>
+            <div class="gap-2 mt-4 flex flex-row">
+    <b class="text-green-600 text-lg">{{ media if media is not none else '-' }}</b>
+    <div class="uppercase text-xs text-gray-600 mt-2">(conceito média: {{ conceitoMedia or '-' }})</div></div>
+        </div>
+
+        {% set total_alunos = alunos | length %}
+        {% set notas_lancadas = alunos | selectattr('nota', 'defined') | rejectattr('nota', 'none') | list | length %}
+        {% set percentual = ((notas_lancadas / total_alunos) * 100) | round(1) if total_alunos > 0 else 0 %}
+
+<div class="bg-gray-600/10 rounded-xl p-4 w-full">
+    <div class="flex flex-row justify-between">
+        <div class="uppercase">notas lançadas</div>
+        <div class="text-blue-600">
+            <i class="ri-task-line"></i>
+        </div>
+    </div>
+    <div class="flex flex-row justify-between items-end mt-4">
+        <b id="notas-lancadas" class="text-2xl">{{ notas_lancadas }} / {{ total_alunos }}</b>
+        <span id="notas-percentual" class="text-xs text-gray-600">{{ percentual }}%</span>
+    </div>
+    <div class="w-full bg-gray-300 rounded-full h-2 mt-2 overflow-hidden">
+        <div id="notas-barra" class="bg-blue-600 h-2 rounded-full transition-all" style="width: {{ percentual }}%"></div>
+    </div>
+</div>
+    </div>
+</div>
+
+<form id="form-notas">
+    <input type="hidden" name="idTurma" value="{{ turma.idTurma }}" />
+    <input type="hidden" name="idDisciplina" value="{{ disciplina.idDisciplina }}" />
+    <input type="hidden" name="idProfessor" value="{{ disciplina.idProfessor }}" />
+    <table class="table w-full mt-4 ">
+        <thead>
+            <tr class="uppercase font-semibold text-gray-600 text-xs text-left bg-blue-600/15 rounded-xl">
+                <th class="pl-4 py-2">Nº/id</th>
+                <th>estudante</th>
+                <th>data de nascimento</th>
+                <th>nota (0 - 10)</th>
+                <th class="text-center">conceito</th>
+                <th class="text-center">situação</th>
+            </tr>
+            {% for aluno in alunos %}
+            <tr class="bg-white border-b border-gray-200">
+                <td class="text-sm text-gray-600 pl-4 py-3">#{{ aluno.idAluno }}</td>
+                <td class="text-base font-bold">{{ aluno.nome }}</td>
+                <td class="text-sm text-gray-600">{{ aluno.data }}</td>
+                <td class="pl-4">
+                    <input class="border-1 border-solid border-gray-600 rounded-xl px-6 py-1 input-nota" name="nota-aluno-{{aluno.idAluno}}" data-aluno-id="{{aluno.idAluno}}" value="{% if aluno.nota is defined and aluno.nota is not none %}{% if aluno.nota % 1 == 0 %}{{ aluno.nota|int }}{% else %}{{ aluno.nota }}{% endif %}{% endif %}"/>
+                </td>
+                <td class="text-center">
+                    {% if aluno.conceito %}
+                    <span class="inline-flex items-center justify-center w-7 h-7 text-white {{ aluno.corConceito }} rounded-xl font-bold">{{ aluno.conceito }}</span>
+                    {% endif %}
+                </td>
+                <td class="text-center situacao">{{ aluno.situacao }}</td>
+            </tr>
+            {% endfor %}
+        </thead>
+    </table>
+
+    <div class="mt-4 bg-white flex flex-row justify-between p-4 rounded-xl text-sm">
+        <div class="flex flex-row gap-2 items-center text-gray-600">
+            <div class="text-blue-600 text-xl">
+                <i class="ri-information-line"></i>
+            </div>
+            <div>Revise os lançamentos antes de sincronizar com a base oficial do SUAP</div>
+        </div>
+        <button type="submit" class="flex flex-row gap-2 border border-blue-600 items-center bg-blue-600 text-white font-bold rounded-xl px-4 py-2 cursor-pointer hover:bg-transparent hover:text-blue-600">
+            <div class="text-xl">
+                <i class="ri-save-2-line"></i>
+            </div>
+            <div>Salvar Todas as Alterações</div>
+        </a>
+    </div>
+</form>
+
+
+<script src="/static/js/notas.js"></script>
+
 {% endblock %}

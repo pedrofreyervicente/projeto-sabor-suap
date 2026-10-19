@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Sabor SUAP{% endblock %}</title>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/png" href="/static/images/Logo SaborSUAP com Ícone Acadêmico.png">
+    <link rel="icon" type="image/png" href="/static/images/icone.png">
 
     <link
         href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
         rel="stylesheet"
         />
+    
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js" integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao=" crossorigin="anonymous"></script>
 
     <style>
         body {
@@ -34,7 +37,6 @@
                     <a class="no-underline! text-white!" href="{{ url_for('main.home') }}">Home</a>
                     <a class="no-underline! text-white!" href="{{ url_for('turmas.lista') }}">Turmas</a>
                     <a class="no-underline! text-white!" href="{{ url_for('cadastro.lista') }}">Cadastro</a>
-                    <a class="no-underline! text-white!" href="{{ url_for('notas.lista') }}">Notas</a>
                 </div>
             </div>
         </header>

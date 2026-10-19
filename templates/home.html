@@ -25,16 +25,12 @@
 <div class="text-sm text-gray-600 mt-0 mb-5">Atalhos para as operações mais recorrentes na rotina escolar</div>
 
 
-<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {% with icone="ri-checkbox-line", titulo="Lançar Notas do Trimestre", descricao="Acesso direto ao diário e fechamento de notas", numero=20, url="http://127.0.0.1:5000/notas" %}
+<div class="flex flex-row md:grid-cols-2 lg:grid-cols-2 gap-4 justify-between">
+    {% with icone="ri-user-add-line", titulo="Cadastro", descricao="Inserir nome e data de matrícula", numero=10, cor="green", numero2="900", url= url_for('cadastro.lista') %}
         {% include 'components/destaque-home-acoes.html' %}
     {% endwith %}
 
-    {% with icone="ri-user-add-line", titulo="Cadastro", descricao="Inserir nome e data de matrícula", numero=10, cor="green", numero2="900", url="http://127.0.0.1:5000/cadastro" %}
-        {% include 'components/destaque-home-acoes.html' %}
-    {% endwith %}
-
-    {% with icone="ri-graduation-cap-line", titulo="Turmas", descricao="Turmas, alunos e notas registradas", numero=15, cor="black", numero2="600", url="http://127.0.0.1:5000/turmas" %}
+    {% with icone="ri-graduation-cap-line", titulo="Turmas", descricao="Turmas, alunos e notas registradas", numero=15, cor="black", numero2="600", url= url_for('turmas.lista') %}
         {% include 'components/destaque-home-acoes.html' %}
     {% endwith %}
 </div>

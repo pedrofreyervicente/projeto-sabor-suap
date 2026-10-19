@@ -15,30 +15,13 @@
 </div>
 
 
-<div class="bg-white rounded-lg shadow p-4">
-    <div class="flex flex-row items-center justify-between mx-3">
-        <div class="flex flex-row items-center gap-2">
-            <div class="text-3xl font-bold">{{ dados.turma.nome }}</div>
-            <div class="text-xs bg-blue-600/10 text-blue-600 rounded-md py-1 px-2">Ano Letivo: {{ dados.turma.ano }}</div>
-        </div>
-    
-
-        <div class="flex flex-row items-center justify-end gap-4 mx-3">
-            {% with bg="black/10", text="black", icone="ri-printer-line", titulo="Imprimir Diário" %}
-                {% include 'components/destaque-links-info.html' %}
-            {% endwith %}
-
-            {% with bg="black/10", text="black", icone="ri-edit-line", titulo="Editar Turma" %}
-                {% include 'components/destaque-links-info.html' %}
-            {% endwith %}
-
-            {% with bg="blue-600", text="white", icone="ri-user-follow-line", titulo="Matricular Aluno" %}
-                {% include 'components/destaque-links-info.html' %}
-            {% endwith %}
-        </div>
+<div class="bg-white rounded-lg shadow p-6">
+    <div class="flex flex-row items-center gap-2">
+        <div class="text-3xl font-bold">{{ dados.turma.nome }}</div>
+        <div class="text-xs bg-blue-600/10 text-blue-600 rounded-md py-1 px-2">Ano Letivo: {{ dados.turma.ano }}</div>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-10 mx-3">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
         {% with icone="ri-group-line", titulo="alunos enturmados", descricao=dados.quantidadeAlunos ~ " alunos", cor="blue-600/10", text="blue-600" %}
             {% include 'components/destaque-turmas-info.html' %}
         {% endwith %}
@@ -81,7 +64,6 @@
             <th>id/matrícula</th>
             <th>data de nascimento</th>
             <th>média das notas</th>
-            <th>ações rápidas</th>
         </tr>
         {% for aluno in dados.alunos %}
         <tr class="bg-white border-b border-gray-200">
@@ -90,13 +72,12 @@
             <td class="text-sm text-gray-600">{{ aluno.idAluno }}</td>
             <td class="text-sm text-gray-600">{{ aluno.data }}</td>
             <td>
-                <div class="text-center text-green-800 inline-flex flex-col text-xs">
-                    <span class="font-bold">8.5</span>
-                    <span>Aprovados</span>
+                <div class="text-center text-green-800 inline-flex flex-col text-xs ml-6">
+                    {% if aluno.conceito %}
+                        <span class="text-black text-xs font-bold rounded px-2 py-1">{{ aluno.conceito }}</span>
+                        <span class="{{ 'text-green-600' if aluno.situacao == 'Aprovado' else 'text-red-600'}}">{{ aluno.situacao}}</span>
+                    {% endif %}
                 </div>
-            </td>
-            <td>
-                <a href="#" class="text-blue-600 bg-blue-600/10 rounded-xl text-blue-600 bg-blue-600/10 rounded-md text-2md py-1 px-3 font-bold text-xs">Lançar / Ver nota</a>
             </td>
         </tr>
         {% endfor %}
