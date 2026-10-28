@@ -1,14 +1,10 @@
 from database import db
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, func
 from models import Turmas, Alunos, RelacionamentoAluno, RelacionamentoTurma, RelacionamentoProfessor, Disciplinas, Professores, Notas
 
-class DetalheTurma ():
+class DetalheTurma():
     def __init__(self, idTurma):
         self.idTurma = idTurma
-        self.relAlunos = RelacionamentoAluno()
-        self.relDisciplinas = RelacionamentoTurma()
-        self.relProfessores = RelacionamentoProfessor()
-
 
     def getTurma(self):
         return db.get_or_404(Turmas, self.idTurma)
@@ -41,38 +37,46 @@ class DetalheTurma ():
 
         alunos = []
         for aluno, nota in db.session.execute(stmt).all():
-            if nota:
-                aluno.nota = nota
-            else:
-                aluno.none = ''
+            aluno.nota = nota if nota is not None else ''
             alunos.append(aluno)
         return alunos
 
     def getDisciplinas(self):
         stmt = (
-        select(
-            RelacionamentoProfessor.idTurma,
-            Disciplinas.idDisciplina,
-            Disciplinas.nome.label("disciplina"),
-            Professores.idProfessor,
-            Professores.nome.label("professor"),
-        )
-        .select_from(RelacionamentoProfessor)
-        .join(Disciplinas, Disciplinas.idDisciplina == RelacionamentoProfessor.idDisciplina)
-        .join(Professores, Professores.idProfessor == RelacionamentoProfessor.idProfessor)
-        .where(RelacionamentoProfessor.idTurma == self.idTurma)
-        .order_by(Disciplinas.nome)
+            select(
+                RelacionamentoTurma.idTurma,
+                Disciplinas.idDisciplina,
+                Disciplinas.nome.label("disciplina"),
+                Professores.idProfessor,
+                func.coalesce(Professores.nome, "Sem professor").label("professor")
+            )
+            .select_from(RelacionamentoTurma)
+            .join(Disciplinas, Disciplinas.idDisciplina == RelacionamentoTurma.idDisciplina)
+            .outerjoin(
+                RelacionamentoProfessor,
+                and_(
+                    RelacionamentoProfessor.idTurma == self.idTurma,
+                    RelacionamentoProfessor.idDisciplina == Disciplinas.idDisciplina
+                )
+            )
+            .outerjoin(Professores, Professores.idProfessor == RelacionamentoProfessor.idProfessor)
+            .where(RelacionamentoTurma.idTurma == self.idTurma)
+            .distinct()
+            .order_by(Disciplinas.nome)
         )
         return db.session.execute(stmt).all()
 
     def getDadosTurma(self, idDisciplina=None):
         alunos = self.getAlunos(idDisciplina)
         disciplinas = self.getDisciplinas()
+        
+        professores_ids = {d.idProfessor for d in disciplinas if d.idProfessor is not None}
+        
         return {
             "turma": self.getTurma(),
             "alunos": alunos,
             "quantidadeAlunos": len(alunos),
             "disciplinas": disciplinas,
             "quantidadeDisciplinas": len({d.idDisciplina for d in disciplinas}),
-            "quantidadeProfessores": len({d.idProfessor for d in disciplinas})
+            "quantidadeProfessores": len(professores_ids)
         }

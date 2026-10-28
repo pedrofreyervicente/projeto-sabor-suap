@@ -26,7 +26,7 @@
 
 
 <div class="flex flex-row md:grid-cols-2 lg:grid-cols-2 gap-4 justify-between">
-    {% with icone="ri-user-add-line", titulo="Cadastro", descricao="Inserir nome e data de matrícula", numero=10, cor="green", numero2="900", url= url_for('cadastro.lista') %}
+    {% with icone="ri-user-add-line", titulo="Cadastro", descricao="Inserir nome e data de matrícula", numero=10, cor="green", numero2="900", url= url_for('cadastro.listar_alunos') %}
         {% include 'components/destaque-home-acoes.html' %}
     {% endwith %}
 

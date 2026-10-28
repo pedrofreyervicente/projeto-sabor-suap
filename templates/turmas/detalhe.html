@@ -30,7 +30,7 @@
             {% include 'components/destaque-turmas-info.html' %}
         {% endwith %}
 
-        {% with icone="ri-user-follow-line", titulo="professores atribuidos", descricao="6 docentes", cor="green-600/10", text="green-600" %}
+        {% with icone="ri-user-follow-line", titulo="professores atribuidos", descricao= dados.quantidadeProfessores ~ " docentes", cor="green-600/10", text="green-600" %}
             {% include 'components/destaque-turmas-info.html' %}
         {% endwith %}
     </div>

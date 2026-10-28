@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Cadastro de Alunos{% endblock %}
+
+{% block content %}
+
+<div>
+    <div class="mb-4">
+    {% with titulo = "Registros e Cadastros Ativos", descricao="Controle centralizado de matrículas de estudantes, corpo docente ativo e matriz curricular." %}
+        {% include 'components/pagina-titulo.html' %}
+    {% endwith %}
+    </div>
+</div>
+
+<div class="flex flex-row bg-blue-600/10 gap-4 p-2 rounded-xl text-sm mb-5">
+    <a href="{{ url_for('cadastro.listar_alunos') }}" class="flex flex-row font-bold gap-2 bg-white rounded-xl p-3 text-blue-600"><i class="ri-id-card-line"></i>Alunos <div class="text-blue-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1">{{ totalAlunos }}</div></a>
+    <a href="{{ url_for('cadastro_professor.listar_professores') }}" class="flex flex-row gap-2 p-3 hover:bg-blue-600/15 rounded-xl transition-all"><i class="ri-brain-line"></i>Professores <div class="text-black-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1">{{ totalProfessores }}</div></a>
+    <a href="{{ url_for('cadastro_disciplina.listar_disciplinas') }}" class="flex flex-row gap-2 p-3 hover:bg-blue-600/15 rounded-xl transition-all"><i class="ri-book-open-line"></i>Disciplinas <div class="text-black-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1">{{ totalDisciplinas }}</div></a>
+    <a href="{{ url_for('cadastro_turma.listar_turmas') }}" class="flex flex-row gap-2 p-3 hover:bg-blue-600/15 rounded-xl transition-all"><i class="ri-group-line"></i>Turmas <div class="text-black-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1"> {{ totalTurmas }}</div></a>
+</div>
+
+<div class="flex flex-row gap-4">
+    <div class="w-full">
+        <div class="text-xl font-bold mb-2">Lista oficial de alunos</div>
+
+        <table class="table w-full">
+            <thead>
+                <tr class="uppercase font-semibold text-gray-600 text-xs text-left">
+                    <th class="pl-4 py-2">ID</th>
+                    <th>Nome Completo</th>
+                    <th>Data de nascimento</th>
+                    <th>Turma</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                <tr class="bg-white border-b border-gray-200">
+                    <td class="text-sm text-gray-600 pl-4 py-3">{{ aluno.idAluno }}</td>
+                    <td class="text-base font-bold">{{ aluno.nome }}</td>
+                    <td class="text-sm text-gray-600">{{ aluno.data }}</td>
+                    <td class="text-sm text-gray-600">{{ aluno.turma_nome }}</td>
+                    <td class="text-lg text-gray-600">
+                        <a href="{{ url_for('cadastro.editar_aluno', id_aluno=aluno.idAluno) }}" class="text-blue-600 hover:text-blue-800 mr-2">
+                            <i class="ri-edit-line"></i>
+                        </a>
+                        <a href="{{ url_for('cadastro.deletar_aluno', id_aluno=aluno.idAluno) }}" 
+                           onclick="return confirm('Tem certeza que deseja excluir o(a) aluno(a) {{ aluno.nome }}?');"
+                           class="text-red-500 hover:text-red-700">
+                            <i class="ri-delete-bin-line"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bg-white justify-center p-6 rounded-xl shadow-sm border border-gray-100 h-max w-96">
+        <div class="text-lg font-bold text-gray-800">
+            {% if aluno_edicao %}
+                Editar Aluno (ID: {{ aluno_edicao.idAluno }})
+            {% else %}
+                Cadastrar novo Aluno
+            {% endif %}
+        </div>
+        <div class="text-xs text-gray-500 mb-4">
+            {% if aluno_edicao %}
+                Atualize o nome, data de nascimento e turma vinculada.
+            {% else %}
+                Preencha os atributos da tabela alunos e vincule à turma cadastrada.
+            {% endif %}
+        </div>
+
+        <form method="POST" 
+              action="{% if aluno_edicao %}{{ url_for('cadastro.editar_aluno', id_aluno=aluno_edicao.idAluno) }}{% else %}{{ url_for('cadastro.listar_alunos') }}{% endif %}" 
+              id="form-cadastrar-aluno" class="flex flex-col gap-3">
+
+            <div>
+                <div class="text-sm font-semibold text-gray-600 mb-1">ID do Aluno</div>
+                <input type="number" name="id_aluno" required 
+                       value="{{ aluno_edicao.idAluno if aluno_edicao else totalAlunos+1 }}" 
+                       readonly
+                       class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-1 bg-blue-600/10 text-sm opacity-60 cursor-not-allowed" />
+            </div>
+
+            <div>
+                <div class="text-sm font-semibold text-gray-600 mb-1">Nome Completo</div>
+                <input type="text" name="nome" required 
+                       value="{{ aluno_edicao.nome if aluno_edicao else '' }}"
+                       class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-1 bg-blue-600/10 text-sm" 
+                       placeholder="Ex: João Silva" />
+            </div>
+
+            <div>
+                <div class="text-sm font-semibold text-gray-600 mb-1">Data de Nascimento</div>
+                <input type="text" name="data_nascimento" 
+                       value="{{ aluno_edicao.data if aluno_edicao else '' }}"
+                       class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-1 bg-blue-600/10 text-sm" 
+                       placeholder="dd/mm/aaaa" />
+            </div>
+
+            <div>
+                <div class="text-sm font-semibold text-gray-600 mb-1">Turma de Ingresso</div>
+                <select name="id_turma" class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-1 bg-blue-600/10 text-sm bg-white">
+                    <option value="">Selecione a turma...</option>
+                    {% for turma in turmas %}
+                        <option value="{{ turma.idTurma }}" 
+                                {% if aluno_edicao and (aluno_edicao.id_turma_atual == turma.idTurma|string) %}selected{% endif %}>
+                            {{ turma.nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl text-sm">
+                <div class="flex flex-row gap-2 justify-center">
+                    <div>{% if aluno_edicao %}Atualizar Aluno{% else %}Salvar Aluno{% endif %}</div>
+                    <i class="{% if aluno_edicao %}ri-check-line{% else %}ri-save-line{% endif %}"></i>
+                </div>
+            </button>
+
+            {% if aluno_edicao %}
+                <a href="{{ url_for('cadastro.listar_alunos') }}" class="text-center text-xs text-gray-500 hover:underline mt-1">
+                    Cancelar Edição
+                </a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}

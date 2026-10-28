@@ -9,7 +9,7 @@ class Notas(db.Model):
     idDisciplina = db.Column(db.Integer, nullable=True)
     idTurma = db.Column(db.Integer, nullable=True)
     idAluno = db.Column(db.Integer, nullable=True)
-    nota = db.Column(db.Integer, nullable=True)
+    nota = db.Column(db.Numeric (4, 2), nullable=False)
 
     
     @staticmethod

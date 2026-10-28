@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Cadastro de Professores{% endblock %}
+
+{% block content %}
+
+<div>
+    <div class="mb-4">
+    {% with titulo = "Registros e Cadastros Ativos", descricao="Controle centralizado de matrículas de estudantes, corpo docente ativo e matriz curricular." %}
+        {% include 'components/pagina-titulo.html' %}
+    {% endwith %}
+    </div>
+</div>
+
+<div class="flex flex-row bg-blue-600/10 gap-4 p-2 rounded-xl text-sm mb-5">
+    <a href="{{ url_for('cadastro.listar_alunos') }}" class="flex flex-row gap-2 p-3 hover:bg-blue-600/15 rounded-xl transition-all"><i class="ri-id-card-line"></i>Alunos <div class="text-black-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1">{{ totalAlunos }}</div></a>
+    <a href="{{ url_for('cadastro_professor.listar_professores') }}" class="flex flex-row font-bold gap-2 bg-white rounded-xl p-3 text-blue-600"><i class="ri-brain-line"></i>Professores <div class="text-black-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1">{{ totalProfessores }}</div></a>
+    <a href="{{ url_for('cadastro_disciplina.listar_disciplinas') }}" class="flex flex-row gap-2 p-3 hover:bg-blue-600/15 rounded-xl transition-all"><i class="ri-book-open-line"></i>Disciplinas <div class="text-black-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1">{{ totalDisciplinas }}</div></a>
+    <a href="{{ url_for('cadastro_turma.listar_turmas') }}" class="flex flex-row gap-2 p-3 hover:bg-blue-600/15 rounded-xl transition-all"><i class="ri-group-line"></i>Turmas <div class="text-black-600 bg-blue-600/10 px-1 rounded-xl text-xs mt-1">{{ totalTurmas }}</div></a>
+</div>
+
+<div class="flex flex-row gap-4">
+    <div class="w-full">
+        <div class="text-xl font-bold mb-2">Lista oficial de professores</div>
+
+        <table class="table w-full">
+            <thead>
+                <tr class="uppercase font-semibold text-gray-600 text-xs text-left">
+                    <th class="pl-4 py-2">ID</th>
+                    <th>Nome Completo</th>
+                    <th>Turmas</th>
+                    <th>Disciplinas</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for professor in professores %}
+                <tr class="bg-white border-b border-gray-200">
+                    <td class="text-sm text-gray-600 pl-4 py-3">{{ professor.idProfessor }}</td>
+                    <td class="text-base font-bold">{{ professor.nome }}</td>
+                    <td class="text-sm text-gray-600">{{ professor.turma_nome }}</td>
+                    <td class="text-sm text-gray-600">{{ professor.disciplina_nome }}</td>
+                    <td class="text-lg text-gray-600">
+                        <a href="{{ url_for('cadastro_professor.editar_professor', id_professor=professor.idProfessor) }}" class="text-blue-600 hover:text-blue-800 mr-2">
+                            <i class="ri-edit-line"></i>
+                        </a>
+                        <a href="{{ url_for('cadastro_professor.deletar_professor', id_professor=professor.idProfessor) }}" 
+                           onclick="return confirm('Tem certeza que deseja excluir o(a) professor(a) {{ professor.nome }}?');"
+                           class="text-red-500 hover:text-red-700">
+                            <i class="ri-delete-bin-line"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="bg-white justify-center p-6 rounded-xl shadow-sm border border-gray-100 h-max w-96">
+        <div class="text-lg font-bold text-gray-800">
+            {% if professor_edicao %}
+                Editar Professor (ID: {{ professor_edicao.idProfessor }})
+            {% else %}
+                Cadastrar novo Professor
+            {% endif %}
+        </div>
+        <div class="text-xs text-gray-500 mb-4">
+            {% if professor_edicao %}
+                Atualize o nome, turmas e disciplinas vinculadas.
+            {% else %}
+                Preencha os atributos da tabela professores e vincule às turmas e disciplinas.
+            {% endif %}
+        </div>
+
+        <form method="POST" 
+              action="{% if professor_edicao %}{{ url_for('cadastro_professor.editar_professor', id_professor=professor_edicao.idProfessor) }}{% else %}{{ url_for('cadastro_professor.listar_professores') }}{% endif %}" 
+              id="form-cadastrar-professor" class="flex flex-col gap-3">
+
+              <div>
+                <div class="text-sm font-semibold text-gray-600 mb-1">ID do Professor</div>
+                <input type="number" name="id_professor" required 
+                       value="{{ professor_edicao.idProfessor if professor_edicao else totalProfessores+1 }}" 
+                       readonly
+                       class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-1 bg-blue-600/10 text-sm opacity-60 cursor-not-allowed" />
+            </div>
+
+            <div>
+                <div class="text-sm font-semibold text-gray-600 mb-1">Nome Completo</div>
+                <input type="text" name="nome" required 
+                       value="{{ professor_edicao.nome if professor_edicao else '' }}"
+                       class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-1 bg-blue-600/10 text-sm" 
+                       placeholder="Ex: João Silva" />
+            </div>
+
+            <div>
+    <div class="text-sm font-semibold text-gray-600 mb-1">Turmas Vinculadas</div>
+    <select name="id_turma" multiple class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-2 bg-blue-600/10 text-sm bg-white h-24">
+        {% for turma in turmas %}
+            <option value="{{ turma.idTurma }}" 
+                    {% if professor_edicao and professor_edicao.ids_turmas_atuais and (turma.idTurma|string in professor_edicao.ids_turmas_atuais) %}selected{% endif %}>
+                {{ turma.nome }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+            <div>
+                <div class="text-sm font-semibold text-gray-600 mb-1">Disciplinas Ministradas</div>
+                <select name="id_disciplina" multiple class="w-full border-1 border-solid border-gray-600 rounded-xl px-4 py-2 bg-blue-600/10 text-sm bg-white h-24">
+                    {% for disc in disciplinas %}
+                        <option value="{{ disc.idDisciplina }}" 
+                                {% if professor_edicao and (disc.idDisciplina|string in professor_edicao.ids_disciplinas_atuais) %}selected{% endif %}>
+                            {{ disc.nome }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <div class="text-[10px] text-gray-400 mt-1">Segure Ctrl (ou Cmd) para selecionar múltiplos itens.</div>
+            </div>
+
+            <button type="submit" class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl text-sm">
+                <div class="flex flex-row gap-2 justify-center">
+                    <div>{% if professor_edicao %}Atualizar Professor{% else %}Salvar Professor{% endif %}</div>
+                    <i class="{% if professor_edicao %}ri-check-line{% else %}ri-save-line{% endif %}"></i>
+                </div>
+            </button>
+
+            {% if professor_edicao %}
+                <a href="{{ url_for('cadastro_professor.listar_professores') }}" class="text-center text-xs text-gray-500 hover:underline mt-1">
+                    Cancelar Edição
+                </a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}
